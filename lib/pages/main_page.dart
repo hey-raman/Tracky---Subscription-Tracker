@@ -354,14 +354,16 @@ class _MainPageState extends State<MainPage> {
                   const PopupMenuItem(value: 'delete', child: Text("Delete")),
                   const PopupMenuItem(value: 'cancel', child: Text("Cancel")),
                 ],
-
                 onSelected: (value) async {
                   if (value == 'delete') {
                     await _supabaseClient
                         .from('subscriptions')
                         .delete()
-                        .eq('id', sub['id']);
-                    _getUserAndSubscriptions();
+                        .eq('id', sub['id']); // assuming sub['id'] exists
+                    _getUserAndSubscriptions(); // refresh
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text('Deleted')));
                   }
                 },
 
